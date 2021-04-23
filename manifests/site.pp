@@ -29,3 +29,14 @@ node default {
   # Example:
   #   class { 'my_class': }
 }
+
+#node 'puppetmaster.feralcoder.org' {
+#  class { 'puppetdb':
+#    listen_address => 'puppetmaster.feralcoder.org'
+#  }
+#  class { 'puppetdb::master::config':
+##    strict_validation => false
+#  }
+#}
+
+#puppetdb::master::config::strict_validation: false
