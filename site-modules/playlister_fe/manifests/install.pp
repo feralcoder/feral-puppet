@@ -5,7 +5,7 @@
 # @example
 #   include playlister_fe::install
 class playlister_fe::install {
-  if $playlister_fe::package_manage {
-    package { $playlister_be::haproxy }
-  }
+    package { 'haproxy':
+      ensure => installed
+    }
 }

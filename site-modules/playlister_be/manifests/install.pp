@@ -5,7 +5,7 @@
 # @example
 #   include playlister_be::install
 class playlister_be::install {
-  if $playlister_be::package_manage {
-    package { $playlister_be::yelp }
-  }
+    package { 'yelp':
+      ensure => installed
+    }
 }
