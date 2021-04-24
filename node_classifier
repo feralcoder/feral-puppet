@@ -1,0 +1,17 @@
+#!/bin/bash
+
+HOST=$1
+
+cat <<EOF
+---
+classes:
+  - common
+  - test
+EOF
+
+if ( echo $HOST | grep -E '^playlister[0-9]+-fe-' >/dev/null ); then
+  echo "  - playlister_fe::install"
+elif ( echo $HOST | grep -E '^playlister[0-9]+-be-' >/dev/null ); then
+  echo "  - playlister_be::install"
+fi
+
