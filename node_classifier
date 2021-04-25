@@ -5,12 +5,15 @@ HOST=$1
 cat <<EOF
 ---
 classes:
-  - feralcoder_common
 EOF
 
-if ( echo $HOST | grep -E '^playlister[0-9]+-fe-' >/dev/null ); then
+if ( echo $HOST | grep -E '^playlister[0-9]*-fe-' >/dev/null ); then
   echo "  - playlister_fe::install"
-elif ( echo $HOST | grep -E '^playlister[0-9]+-be-' >/dev/null ); then
+elif ( echo $HOST | grep -E '^playlister[0-9]*-be-' >/dev/null ); then
   echo "  - playlister_be::install"
+elif ( echo $HOST | grep -E '^puppetmaster' >/dev/null ); then
+  echo "  - feralcoder_puppetmaster"
+elif ( echo $HOST | grep -E '^image_updater' >/dev/null ); then
+  echo "  - image_updater"
 fi
 
