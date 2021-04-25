@@ -24,12 +24,6 @@ File { backup => false }
 # Puppet Enterprise console and External Node Classifiers (ENC's).
 #
 # For more on node definitions, see: https://puppet.com/docs/puppet/latest/lang_node_definitions.html
-node default {
-  # This is where you can declare classes for all nodes.
-  # Example:
-     class { 'feralcoder_common::install': }
-}
-
 #node 'puppetmaster.feralcoder.org' {
 #  class { 'puppetdb':
 #    listen_address => 'puppetmaster.feralcoder.org'
@@ -40,3 +34,16 @@ node default {
 #}
 
 #puppetdb::master::config::strict_validation: false
+
+stage { 'puppet-init':
+  before => Stage['main']
+}
+
+node default {
+  class { 'feralcoder_common::decrypt_key':
+    stage => 'puppet-init'
+  }
+  class { 'feralcoder_common::install': }
+}
+
+
