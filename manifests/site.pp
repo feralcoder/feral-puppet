@@ -39,7 +39,7 @@ stage { 'puppet-init':
   before => Stage['main']
 }
 stage { 'puppetmaster-init':
-  before => Stage['puppet_init']
+  before => Stage['puppet-init']
 }
 
 node default {
