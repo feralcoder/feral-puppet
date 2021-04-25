@@ -38,6 +38,9 @@ File { backup => false }
 stage { 'puppet-init':
   before => Stage['main']
 }
+stage { 'puppetmaster-init':
+  before => Stage['puppet_init']
+}
 
 node default {
   class { 'feralcoder_common::decrypt_key':
@@ -46,4 +49,8 @@ node default {
   class { 'feralcoder_common::install': }
 }
 
-
+node puppetmaster.feralcoder.org {
+  class { 'feralcoder_puppetmaster::crypt':
+    stage => 'puppetmaster-init'
+  }
+}
