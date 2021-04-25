@@ -1,0 +1,3 @@
+[submodule "site-modules/puppet-abort"]
+	path = site-modules/puppet-abort
+	url = https://github.com/BlackstoneGroup/puppet-abort.git
