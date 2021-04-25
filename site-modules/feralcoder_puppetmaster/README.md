@@ -13,6 +13,15 @@ Puppetmaster must be built from an updated OS image.
 Puppet can then be used to update a scratch image and promote new centos-8-feralcoder.
 Which can then be used for a new puppetmaster.
 
+Another Chicken-Egg problem: puppet encrypt/decrypt key.
+- feralcoder_common places /etc/facter/facts.d/decrypt.txt on clients
+    - facter gets decrypt key fact from here
+    - copied from site-module/feralcoder_common/files/facts_decrypt.txt
+    - site-module/feralcoder_common/files/facts_decrypt.txt not checked into git
+- feralcoder_puppetmaster generates site-module/feralcoder_common/files/facts_decrypt.txt
+    - feralcoder_puppetmaster gets key value from /etc/facter/facts.d/decrypt.txt
+- first secret placed by OpenStack user-data script: feralstack/files/puppetmaster-bootstrap.sh
+
 
 ## GENERATED CONTENT
 
