@@ -50,11 +50,12 @@ node default {
 }
 
 node puppetmaster.feralcoder.org {
-  class { 'feralcoder_puppetmaster::crypt':
+  class { 'feralcoder_puppetmaster::crypt::key':
     stage => 'puppetmaster-init'
   }
   class { 'feralcoder_common::decrypt_key':
     stage => 'puppet-init'
   }
+  class { 'feralcoder_puppetmaster::crypt': }
   class { 'feralcoder_common::install': }
 }

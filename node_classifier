@@ -13,7 +13,7 @@ elif ( echo $HOST | grep -E '^playlister[0-9]*-be-' >/dev/null ); then
   echo "  - playlister_be::install"
 elif ( echo $HOST | grep -E '^puppetmaster' >/dev/null ); then
   echo "  - feralcoder_puppetmaster"
-elif ( echo $HOST | grep -E '^image_updater' >/dev/null ); then
+elif ( echo $HOST | grep -E '^image-updater' >/dev/null ); then
   echo "  - image_updater"
 fi
 
