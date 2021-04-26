@@ -26,8 +26,8 @@ class image_updater::yum {
     ensure => installed
   }
 
-  exec { 'dnf update':
-    command => '/usr/bin/dnf update -y',
+  exec { 'yum update':
+    command => '/usr/bin/yum update -y',
     timeout => 1800
   }
 

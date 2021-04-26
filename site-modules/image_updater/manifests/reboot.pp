@@ -14,6 +14,6 @@ class image_updater::reboot: {
     mode => '0644'
   }
   reboot { 'after':
-    subscribe       => Exec['dnf update'],
+    subscribe       => Exec['yum update'],
   }
 }
