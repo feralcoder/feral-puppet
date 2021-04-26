@@ -1,3 +1,6 @@
 site-modules/feralcoder_common/files/facts_decrypt.txt
 modules/
 *.swp
+reboot/
+refacter/
+stdlib/
