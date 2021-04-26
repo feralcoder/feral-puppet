@@ -5,4 +5,10 @@
 # @example
 #   include image_updater
 class image_updater {
+  class { 'image_updater::users': } ~>
+  class { 'image_updater::secrets': } ~>
+  class { 'image_updater::ssh': } ~>
+  class { 'image_updater::yum': } ~>
+  class { 'image_updater::zeroes': } ~>
+  class { 'image_updater::reboot': }
 }

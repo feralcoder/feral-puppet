@@ -5,4 +5,7 @@
 # @example
 #   include image_updater::reboot
 class image_updater::reboot {
+  reboot { 'after':
+    subscribe       => Exec['dnf update'],
+  }
 }

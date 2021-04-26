@@ -5,4 +5,13 @@
 # @example
 #   include image_updater::ssh
 class image_updater::ssh {
+  file_line { 'enable ssh by password':
+    path => '/etc/ssh/sshd_config',
+    match => '^PasswordAuthentication',
+    line => 'PasswordAuthentication yes'
+  }
+  service { 'sshd':
+    ensure => running,
+    subscribe => File_line["enable ssh by password"]
+  }
 }
