@@ -5,6 +5,10 @@
 # @example
 #   include fc_admin::configure
 class fc_admin::configure {
+  $code_dir='/home/cliff/CODE'
+  $fc_code_dir="$code_dir/feralcoder"
+  $git_password_file='/home/cliff/.git_password'
+
   exec { 'bootstrap adminservers as jumphost type':
     command => "$fc_code_dir/bootstrap-scripts/jumphost.sh",
     creates => "/home/cliff/.local_settings",
@@ -19,9 +23,10 @@ class fc_admin::configure {
 
   # Allow one run of admin scripts to place /etc/hosts
   # Then lock in place, managed by puppet from here.
-  file { 'set hosts lock':
-    path => '/etc/hosts_managed_dont_clobber',
-    ensure ==> file,
+  exec { 'set hosts lock':
+    # Wait for hosts to be placed by workstation/update.sh before locking
+    command => '/usr/bin/grep "HOSTS FROM WORKSTATION CONFIGURATION" /etc/hosts >/dev/null && touch /etc/hosts_managed_dont_clobber',
+    creates => '/etc/hosts_managed_dont_clobber',
   }
   file_line { 'set puppetmaster in /etc/hosts':
     path => '/etc/hosts',
