@@ -5,7 +5,7 @@
 # @example
 #   include fc_puppetmaster
 class fc_puppetmaster {
-#  class { 'fc_admin': } ~>
+  class { 'fc_admin': } ~>
   class { 'fc_puppetmaster::configure': } ~>
   class { 'fc_puppetmaster::install': }
 }
