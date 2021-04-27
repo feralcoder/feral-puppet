@@ -1,0 +1,1 @@
+fc_puppet_decrypt_key=xxxx
