@@ -34,15 +34,15 @@ class fc_puppetmaster::configure {
     owner => 'root',
     group => 'root',
   }
-  exec { 'check out bootstrap-scripts repo':
+  exec { 'check out bootstrap-scripts repo for root':
     creates => "$fc_code_dir/bootstrap-scripts/.git/config",
     command => "/usr/bin/git clone https://feralcoder:`/usr/bin/cat $git_password_file`@github.com/feralcoder/bootstrap-scripts.git $fc_code_dir/bootstrap-scripts"
   }
-  exec { 'check out workstation repo':
+  exec { 'check out workstation repo for root':
     creates => "$fc_code_dir/workstation/.git/config",
     command => "/usr/bin/git clone https://feralcoder:`/usr/bin/cat $git_password_file`@github.com/feralcoder/workstation.git $fc_code_dir/workstation"
   }
-  exec { 'check out twilio-pager repo':
+  exec { 'check out twilio-pager repo for root':
     creates => "$fc_code_dir/twilio-pager/.git/config",
     command => "/usr/bin/git clone https://feralcoder:`/usr/bin/cat $git_password_file`@github.com/feralcoder/twilio-pager.git $fc_code_dir/twilio-pager"
   }
@@ -64,23 +64,10 @@ class fc_puppetmaster::configure {
     user => 'root',
     environment => [ 'HOME=/root' ],
   }
-  exec { 'update from workstation script':
+  exec { 'update root from workstation script':
     command => "$fc_code_dir/workstation/update.sh",
     user => 'root',
     environment => [ 'HOME=/root' ],
   }
 
-
-  # Allow one run of admin scripts to place /etc/hosts
-  # Then lock in place, managed by puppet from here.
-  exec { 'set hosts lock':
-    # Wait for hosts to be placed by workstation/update.sh before locking
-    command => '/usr/bin/grep "HOSTS FROM WORKSTATION CONFIGURATION" /etc/hosts >/dev/null && touch /etc/hosts_managed_dont_clobber',
-    creates => '/etc/hosts_managed_dont_clobber',
-  }
-  file_line { 'set puppetmaster in /etc/hosts':
-    path => '/etc/hosts',
-    match => '.*puppetmaster.feralcoder.org',
-    line => "$serverip    puppetmaster.feralcoder.org puppetmaster",
-  }
 }
