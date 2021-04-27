@@ -25,3 +25,5 @@
 .project
 .envrc
 /inventory.yaml
+decrypt_secret
+facts_decrypt.txt
