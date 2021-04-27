@@ -15,7 +15,7 @@ class image_updater::reboot {
   }
   # Disable puppet before reboot, or we'll be rebooting all day...
   service { 'puppet':
-    enabled => false
+    enable => false
   }
   reboot { 'after':
     subscribe       => Exec['yum update'],
