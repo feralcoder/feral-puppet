@@ -6,3 +6,5 @@ refacter/
 stdlib/
 *password.encrypted
 *tgz.encrypted
+git_resource
+vcsrepo
