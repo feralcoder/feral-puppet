@@ -50,19 +50,6 @@ class fc_admin::repos {
     ensure => latest,
     provider => git,
   }
-  
-  exec { 'bootstrap adminservers as jumphost type':
-    command => "$fc_code_dir/bootstrap-scripts/jumphost.sh",
-    creates => "/home/cliff/.local_settings",
-    user => 'cliff',
-    environment => [ 'HOME=/home/cliff' ],
-  }
-  exec { 'update from workstation script':
-    command => "$fc_code_dir/workstation/update.sh",
-    user => 'cliff',
-    environment => [ 'HOME=/home/cliff' ],
-  }
-
 
 
 #  git { "$fc_code_dir/workstation":
