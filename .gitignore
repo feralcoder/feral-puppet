@@ -4,3 +4,5 @@ modules/
 reboot/
 refacter/
 stdlib/
+*password.encrypted
+*tgz.encrypted
