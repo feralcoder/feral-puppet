@@ -23,21 +23,21 @@ class image_updater::secrets {
     mode => '0600'
   }
   exec { 'cliff git_password':
-    command => "/usr/bin/openssl enc -d -aes-256-cfb8 -md sha256 -in /tmp/git_password.encrypted -out /home/cliff/.git_password --pass file:$decrypt_secret_file"
+    command => "/usr/bin/openssl enc -d -aes-256-cfb8 -md sha256 -in /tmp/git_password.encrypted -out /home/cliff/.git_password -pass file:$decrypt_secret_file"
   }
   ~> file { "/home/cliff/.git_password":
     mode => '0600',
     owner => 'cliff'
   }
   exec { 'centos git_password':
-    command => "/usr/bin/openssl enc -d -aes-256-cfb8 -md sha256 -in /tmp/git_password.encrypted -out /home/centos/.git_password --pass file:$decrypt_secret_file"
+    command => "/usr/bin/openssl enc -d -aes-256-cfb8 -md sha256 -in /tmp/git_password.encrypted -out /home/centos/.git_password -pass file:$decrypt_secret_file"
   }
   ~> file { "/home/centos/.git_password":
     mode => '0600',
     owner => 'centos'
   }
   exec { 'root git_password':
-    command => "/usr/bin/openssl enc -d -aes-256-cfb8 -md sha256 -in /tmp/git_password.encrypted -out /root/.git_password --pass file:$decrypt_secret_file"
+    command => "/usr/bin/openssl enc -d -aes-256-cfb8 -md sha256 -in /tmp/git_password.encrypted -out /root/.git_password -pass file:$decrypt_secret_file"
   }
   ~> file { "/root/.git_password":
     mode => '0600',
@@ -52,7 +52,7 @@ class image_updater::secrets {
     mode => '0600'
   }
   exec { 'decrypt cliff_password':
-    command => "/usr/bin/openssl enc -d -aes-256-cfb8 -md sha256 -in /tmp/cliff_password.encrypted -out /home/cliff/.password --pass file:$decrypt_secret_file"
+    command => "/usr/bin/openssl enc -d -aes-256-cfb8 -md sha256 -in /tmp/cliff_password.encrypted -out /home/cliff/.password -pass file:$decrypt_secret_file"
   }
   ~> file { "/home/cliff/.password":
     mode => '0600',
@@ -66,7 +66,7 @@ class image_updater::secrets {
     mode => '0600'
   }
   exec { 'decrypt cliff ssh.tgz':
-    command => "/usr/bin/openssl enc -d -aes-256-cfb8 -md sha256 -in /tmp/cliff_ssh.tgz.encrypted -out /home/cliff/ssh.tgz --pass file:$decrypt_secret_file"
+    command => "/usr/bin/openssl enc -d -aes-256-cfb8 -md sha256 -in /tmp/cliff_ssh.tgz.encrypted -out /home/cliff/ssh.tgz -pass file:$decrypt_secret_file"
   }
   ~> file { '/home/cliff/ssh.tgz':
     mode => '0600',

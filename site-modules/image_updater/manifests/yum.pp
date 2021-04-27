@@ -6,7 +6,7 @@
 #   include image_updater::yum
 class image_updater::yum {
   exec { 'move existing yum repo configs':
-    command => "/usr/bin/tar -czf yum.repos`date '+%Y%m%d-%H%M'`.tgz -C /etc/ yum.repos.d"
+    command => "/usr/bin/tar -czf /etc/yum.repos`date '+%Y%m%d-%H%M'`.tgz -C /etc/ yum.repos.d"
   }
   exec { 'remove existing yum repo configs':
     command => "/usr/bin/rm -rf /etc/yum.repos.d"
