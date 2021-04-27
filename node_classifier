@@ -8,12 +8,14 @@ classes:
 EOF
 
 if ( echo $HOST | grep -E '^playlister[0-9]*-fe' >/dev/null ); then
-  echo "  - playlister_fe::install"
+  echo "  - fc_playlister_fe::install"
 elif ( echo $HOST | grep -E '^playlister[0-9]*-be' >/dev/null ); then
-  echo "  - playlister_be::install"
+  echo "  - fc_playlister_be::install"
 elif ( echo $HOST | grep -E '^puppetmaster' >/dev/null ); then
-  echo "  - feralcoder_puppetmaster"
+  echo "  - fc_puppetmaster"
 elif ( echo $HOST | grep -E '^image-updater' >/dev/null ); then
-  echo "  - image_updater"
+  echo "  - fc_image_updater"
+elif ( echo $HOST | grep -E '^admin' >/dev/null ); then
+  echo "  - fc_admin"
 fi
 
