@@ -12,3 +12,4 @@ manifests/*
 !manifests/site.pp
 dynamic_facter/*
 !dynamic_facter/README
+data/nodes/*
