@@ -13,3 +13,10 @@ manifests/*
 dynamic_facter/*
 !dynamic_facter/README
 data/nodes/*
+
+apt/
+cassandra/
+firewall/
+inifile/
+puppet-abort/
+translate/
