@@ -35,6 +35,10 @@ File { backup => false }
 
 #puppetdb::master::config::strict_validation: false
 
+stage { 'fc_playlister_be-init':
+  before => Stage['main']
+}
+
 stage { 'puppet-init':
   before => Stage['main']
 }
@@ -49,13 +53,26 @@ node default {
   class { 'fc_common::install': }
 }
 
-node puppetmaster.feralcoder.org {
-  class { 'fc_puppetmaster::crypt::key':
-    stage => 'puppetmaster-init'
-  }
+node 'puppetmaster.feralcoder.org' {
   class { 'fc_common::decrypt_key':
     stage => 'puppet-init'
   }
-  class { 'fc_puppetmaster::crypt': }
   class { 'fc_common::install': }
+  class { 'fc_puppetmaster::crypt::key':
+    stage => 'puppetmaster-init'
+  }
+  class { 'fc_puppetmaster::crypt': }
+
+  case $facts['os']['name'] {
+    'RedHat', 'CentOS': {
+      if $facts['os']['release']['major'] == '7' {
+        class { 'puppetdb':
+          listen_address => 'puppetmaster.feralcoder.org'
+        }
+        class { 'puppetdb::master::config':
+        }
+      }
+    }
+  }
+
 }
