@@ -1,5 +1,20 @@
 # fc_playlister_be
 
+## FERALCODER NOTES:
+Usage of this module is a bit convoluted.  Some crucial configurations live outside the repo.
+
+Puppet enforces states with this module.  But transitions between states are configured
+via outside orchestrator: https://github.com/feralcoder/playlister
+1) Most code in this module gated on variables set in per-node data file and facts
+2) playlister orchestration places initial files for each node, on puppetserver:
+2a) ./manifests/playlister2-be-10-254-0-153.novalocal.pp
+2b) ./data/nodes/playlister2-be-10-254-0-153.novalocal.yaml
+2c) ./site-modules/fc_playlister_be/files/dynamic_facter/playlister2-be-10-254-0-153.novalocal.txt
+3) This module takes $node.novalocal.txt file and places it at /etc/facter/facts.d/fc_playlister_be.txt on client
+4) X.txt and X.yaml contain state tags which must agree
+4a) Once a state is consistently indicated by both files, this module applies state tranitions
+
+
 Welcome to your new module. A short overview of the generated parts can be found
 in the [PDK documentation][1].
 
