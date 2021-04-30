@@ -25,3 +25,6 @@
 .project
 .envrc
 /inventory.yaml
+
+files/dynamic_facter/*
+!files/dynamic_facter/README
