@@ -8,3 +8,7 @@ stdlib/
 *tgz.encrypted
 git_resource
 vcsrepo
+manifests/*
+!manifests/site.pp
+dynamic_facter/*
+!dynamic_facter/README
