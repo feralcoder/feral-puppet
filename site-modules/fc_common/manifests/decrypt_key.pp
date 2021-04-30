@@ -7,7 +7,7 @@
 class fc_common::decrypt_key {
 
   # Using exec instead of file resource to break dependency cycle
-  exec { 'create parent directories for facter...':
+  exec { 'create parent directories for facter for decrypt key...':
     command => "/usr/bin/mkdir -p /etc/facter/facts.d/"
   }
 #  file { [ '/etc/facter/', '/etc/facter/facts.d/' ]:
