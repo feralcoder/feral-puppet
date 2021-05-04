@@ -5,4 +5,5 @@
 # @example
 #   include fc_playlister_be::service
 class fc_playlister_be::service {
+  anchor { 'fc_playlister_be::service::end': }
 }

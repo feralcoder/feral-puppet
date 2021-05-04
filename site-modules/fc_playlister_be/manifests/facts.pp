@@ -14,5 +14,6 @@ class fc_playlister_be::facts {
     source => [ "puppet:///modules/fc_playlister_be/dynamic_facter/$clientcert.txt" ],
     mode => "0600"
   }
-  ~> refacter { 'reload after playlister facts placed': patterns => [ "^fc_playlister_be_test" ] }
+  ~> refacter { 'reload after playlister facts placed': patterns => [ "^*" ] }
+  anchor { 'fc_playlister_be::facts::end': }
 }
