@@ -1,6 +1,8 @@
 --- {}
 cassandra::baseline_settings:
-  authenticator: AllowAllAuthenticator
-  authorizer: AllowAllAuthorizer
+  authenticator: PasswordAuthenticator
+  authorizer: CassandraAuthorizer
+#  authenticator: AllowAllAuthenticator
+#  authorizer: AllowAllAuthorizer
   auto_bootstrap: true
   auto_snapshot: true
