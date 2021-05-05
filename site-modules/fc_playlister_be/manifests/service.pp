@@ -5,5 +5,9 @@
 # @example
 #   include fc_playlister_be::service
 class fc_playlister_be::service {
+  service { 'puppet':
+    enable => false,
+    ensure => stopped,
+  }
   anchor { 'fc_playlister_be::service::end': }
 }

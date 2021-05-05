@@ -14,6 +14,12 @@ via outside orchestrator: https://github.com/feralcoder/playlister
 4) X.txt and X.yaml contain state tags which must agree
 4a) Once a state is consistently indicated by both files, this module applies state tranitions
 
+This module disables puppet agent, because the playlister orchestrator runs puppet agent to manage
+state transitions on nodes, and having an enabled puppet agent introduces potential race conditions
+and requires extra logic to recover from concurrent run errors.
+
+
+## BOILERPLATE
 
 Welcome to your new module. A short overview of the generated parts can be found
 in the [PDK documentation][1].

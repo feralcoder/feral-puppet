@@ -18,6 +18,7 @@ class fc_playlister_be {
       ~> file { '/etc/puppetlabs/fc_playlister_be_state/initial_build_started':
         ensure => file,
       }
+      ~> class { 'fc_playlister_be::service': }
       ~> class { 'fc_playlister_be::cassandra': }
       ~> exec { 'clear fc_playlister_be state after change':
         command => "/usr/bin/rm -f /etc/puppetlabs/fc_playlister_be_state/*",
