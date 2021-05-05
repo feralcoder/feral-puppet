@@ -5,4 +5,6 @@
 # @example
 #   include fc_common
 class fc_common {
+  class { 'fc_common::config': } ~>
+  class { 'fc_common::install': }
 }

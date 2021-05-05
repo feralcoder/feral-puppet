@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'fc_common::decrypt_key' do
+describe 'fc_puppetmaster::crypt::cliff_key' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }

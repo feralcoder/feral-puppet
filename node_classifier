@@ -5,6 +5,7 @@ HOST=$1
 cat <<EOF
 ---
 classes:
+  - fc_common
 EOF
 
 if ( echo $HOST | grep -E '^playlister[0-9]*-fe' >/dev/null ); then

@@ -47,19 +47,20 @@ stage { 'puppetmaster-init':
 }
 
 node default {
-  class { 'fc_common::decrypt_key':
+  class { 'fc_common::facts':
     stage => 'puppet-init'
   }
-  class { 'fc_common::install': }
 }
 
 node 'puppetmaster.feralcoder.org' {
-  class { 'fc_common::decrypt_key':
-    stage => 'puppet-init'
-  }
-  class { 'fc_common::install': }
   class { 'fc_puppetmaster::crypt::key':
     stage => 'puppetmaster-init'
+  }
+  ~> class { 'fc_puppetmaster::crypt::cliff_key':
+    stage => 'puppetmaster-init'
+  }
+  class { 'fc_common::facts':
+    stage => 'puppet-init'
   }
   class { 'fc_puppetmaster::crypt': }
 
