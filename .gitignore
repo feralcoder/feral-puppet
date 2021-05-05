@@ -20,3 +20,4 @@ firewall/
 inifile/
 puppet-abort/
 translate/
+set_env/
