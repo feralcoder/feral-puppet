@@ -1,0 +1,23 @@
+--- cassandra   2021-05-05 22:54:56.942546271 +0000
++++ cassandra.patched   2021-05-05 23:21:24.701976475 +0000
+@@ -53,7 +53,9 @@
+     start)
+         # Cassandra startup
+         echo -n "Starting Cassandra: "
+-        su $CASSANDRA_OWNR -c "$CASSANDRA_PROG -p $pid_file" > $log_file 2>&1
++#        su $CASSANDRA_OWNR -c "$CASSANDRA_PROG -p $pid_file" > $log_file 2>&1
++        runuser -u $CASSANDRA_OWNR -- $CASSANDRA_PROG -p $pid_file > $log_file 2>&1
++#        chown root.root $pid_file
+         retval=$?
+         [ $retval -eq 0 ] && touch $lock_file
+         echo "OK"
+@@ -61,7 +63,8 @@
+     stop)
+         # Cassandra shutdown
+         echo -n "Shutdown Cassandra: "
+-        su $CASSANDRA_OWNR -c "kill `cat $pid_file`"
++#        su $CASSANDRA_OWNR -c "kill `cat $pid_file`"
++        runuser -u $CASSANDRA_OWNR -- kill `cat $pid_file`
+         retval=$?
+         [ $retval -eq 0 ] && rm -f $lock_file
+         for t in `seq 40`; do $0 status > /dev/null 2>&1 && sleep 0.5 || break; done

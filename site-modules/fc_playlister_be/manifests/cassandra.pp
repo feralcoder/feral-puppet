@@ -75,6 +75,26 @@ class fc_playlister_be::cassandra {
     owner => 'cassandra',
     group => 'cassandra',
   }
+  file { '/var/run/cassandra':
+    ensure => directory,
+    owner => 'cassandra',
+    group => 'cassandra',
+  }
+
+  package { 'patch':
+    ensure => installed,
+  }
+  ~> file { '/etc/rc.d/init.d/cassandra_rc.patch':
+    source => "puppet:///modules/fc_playlister_be/cassandra_rc.patch",
+  }
+  ~> exec { 'patch cassandra init script for systemd / cgroups':
+    command => "/usr/bin/cp /etc/rc.d/init.d/cassandra /etc/rc.d/init.d/cassandra.orig && /usr/bin/patch /etc/rc.d/init.d/cassandra /etc/rc.d/init.d/cassandra_rc.patch",
+    creates => "/etc/rc.d/init.d/cassandra.orig"
+  }
+  ~> exec { 'reload systemctl daemon after cassandra init patch':
+    command => "/usr/bin/systemctl daemon-reload"
+  }
+
 
 
 #  exec { 'create .bashrc for cassandra user':
