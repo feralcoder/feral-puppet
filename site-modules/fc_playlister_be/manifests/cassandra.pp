@@ -14,6 +14,11 @@ class fc_playlister_be::cassandra {
     before => Class['cassandra']
   }
 
+  package { 'python2': }
+  ~> package { 'cassandra-driver': 
+    provider => pip2,
+  }
+
   class { 'cassandra':
     dc             => "$cassandra::dc",
     settings       => {
@@ -66,10 +71,13 @@ class fc_playlister_be::cassandra {
     ensure => absent
   }
   # https://issues.apache.org/jira/browse/CASSANDRA-11850
-  ~> package { 'python2': }
-  ~> package { 'cassandra-driver': 
-    provider => pip2,
+  file_line { 'force cqlsh to not use bundled driver':
+    path => '/usr/bin/cqlsh',
+    match => '.*CQLSH_NO_BUNDLED.*',
+    line => "export CQLSH_NO_BUNDLED=TRUE",
+    after => "#!/bin/sh",
   }
+
   file { 'cassandra ownership on /var/lib/cassandra':
     path => '/var/lib/cassandra',
     owner => 'cassandra',
@@ -81,6 +89,7 @@ class fc_playlister_be::cassandra {
     group => 'cassandra',
   }
 
+  # Init scripts not ready for CentOS 8 Systemd
   package { 'patch':
     ensure => installed,
   }
@@ -96,47 +105,5 @@ class fc_playlister_be::cassandra {
   }
 
 
-
-#  exec { 'create .bashrc for cassandra user':
-#    command => '/usr/bin/touch /var/lib/cassandra/.bashrc',
-#    user => 'cassandra'
-#  }
-#  exec { 'create .bash_profile for cassandra user':
-#    command => '/usr/bin/touch /var/lib/cassandra/.bash_profile',
-#    user => 'cassandra'
-#  }
-#  ~> file_line { 'set cqlsh driver fix in cassandra user envs in .bashrc':
-#    path => '/var/lib/cassandra/.bashrc',
-#    match => '.*CQLSH_NO_BUNDLED.*',
-#    line => "export CQLSH_NO_BUNDLED=TRUE",
-#  }
-#  ~> file_line { 'set cqlsh driver fix in cassandra user envs in .bash_profile':
-#    path => '/var/lib/cassandra/.bash_profile',
-#    match => '.*CQLSH_NO_BUNDLED.*',
-#    line => "export CQLSH_NO_BUNDLED=TRUE",
-#  }
-#    
-#  ~> file_line { 'set cqlsh driver fix in cliff user envs in .bashrc':
-#    path => '/home/cliff/.bashrc',
-#    match => '.*CQLSH_NO_BUNDLED.*',
-#    line => "export CQLSH_NO_BUNDLED=TRUE",
-#  }
-#  ~> file_line { 'set cqlsh driver fix in cliff user envs in .bash_profile':
-#    path => '/home/cliff/.bash_profile',
-#    match => '.*CQLSH_NO_BUNDLED.*',
-#    line => "export CQLSH_NO_BUNDLED=TRUE",
-#  }
-#    
-#  ~> file_line { 'set cqlsh driver fix in root user envs in .bashrc':
-#    path => '/root/.bashrc',
-#    match => '.*CQLSH_NO_BUNDLED.*',
-#    line => "export CQLSH_NO_BUNDLED=TRUE",
-#  }
-#  ~> file_line { 'set cqlsh driver fix in root user envs in .bash_profile':
-#    path => '/root/.bash_profile',
-#    match => '.*CQLSH_NO_BUNDLED.*',
-#    line => "export CQLSH_NO_BUNDLED=TRUE",
-#  }
-    
   anchor { 'fc_playlister_be::cassandra::end': }
 }

@@ -6,14 +6,7 @@
 #   include fc_playlister_be::cassandra_schema
 class fc_playlister_be::cassandra_schema {
 
-  file_line { 'force cqlsh to not use bundled driver':
-    path => '/usr/bin/cqlsh',
-    match => '.*CQLSH_NO_BUNDLED.*',
-    line => "export CQLSH_NO_BUNDLED=TRUE",
-    after => "#!/bin/sh",
-  }
-
-  ~> class { 'cassandra::schema':
+  class { 'cassandra::schema':
     before => Anchor['fc_playlister_be::cassandra_schema::end'],
     cqlsh_password => 'cassandra',
     cqlsh_user     => 'cassandra',
