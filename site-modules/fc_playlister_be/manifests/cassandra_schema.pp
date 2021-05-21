@@ -50,15 +50,15 @@ class fc_playlister_be::cassandra_schema {
       },
     },
     tables         => {
-      # ENFORCE UNAME UNIQUENESS
-      'unames' => {
-        columns  => {
-          uname         => 'text',
-          user_id       => 'int',
-          'PRIMARY KEY' => '(uname)',
-        },
-        keyspace => 'playlister_keyspace',
-      },
+#      # ENFORCE UNAME UNIQUENESS
+#      'unames' => {
+#        columns  => {
+#          uname         => 'text',
+#          user_id       => 'int',
+#          'PRIMARY KEY' => '(uname)',
+#        },
+#        keyspace => 'playlister_keyspace',
+#      },
       'users' => {
         columns  => {
           user_id       => 'int',
