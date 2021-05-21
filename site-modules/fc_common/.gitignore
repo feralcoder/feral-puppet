@@ -27,3 +27,5 @@
 /inventory.yaml
 decrypt_secret
 facts_decrypt.txt
+files/facts_cliff*
+files/facts_decrypt*
