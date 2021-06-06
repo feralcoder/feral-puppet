@@ -7,7 +7,8 @@
 class fc_common::facts {
   # Using exec instead of file resource to break dependency cycle
   exec { 'create parent directories for facter...':
-    command => "/usr/bin/mkdir -p /etc/facter/facts.d/"
+    command => "/usr/bin/mkdir -p /etc/facter/facts.d/",
+    creates => "/etc/facter/facts.d"
   }
 
   file { '/etc/facter/facts.d/decrypt.txt':

@@ -10,8 +10,10 @@ EOF
 
 if ( echo $HOST | grep -E '^playlister[0-9]*-fe' >/dev/null ); then
   echo "  - fc_playlister_fe"
-elif ( echo $HOST | grep -E '^playlister[0-9]*-be' >/dev/null ); then
-  echo "  - fc_playlister_be"
+#elif ( echo $HOST | grep -E '^playlister[0-9]*-olap-' >/dev/null ); then
+#  echo "  - fc_mariadb::columnstore::install"
+#elif ( echo $HOST | grep -E '^playlister[0-9]*-oltp-' >/dev/null ); then
+#  echo "  - fc_mariadb::galera::install"
 elif ( echo $HOST | grep -E '^puppetmaster' >/dev/null ); then
   echo "  - fc_puppetmaster"
 elif ( echo $HOST | grep -E '^image-updater' >/dev/null ); then
