@@ -13,6 +13,7 @@ manifests/*
 dynamic_facter/*
 !dynamic_facter/README
 data/nodes/*
+!data/nodes/README
 
 apt/
 cassandra/
