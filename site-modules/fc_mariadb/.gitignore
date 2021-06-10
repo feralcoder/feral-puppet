@@ -25,3 +25,8 @@
 .project
 .envrc
 /inventory.yaml
+files/dynamic_columnstore_facts/*
+!files/dynamic_columnstore_facts/README
+files/dynamic_galera_facts/*
+!files/dynamic_galera_facts/README
+
