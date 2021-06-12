@@ -5,6 +5,10 @@
 # @example
 #   include fc_image_updater::yum
 class fc_image_updater::yum {
+  ensure_packages { [ 'tmux', 'git' ],
+    { ensure => present, }
+  )
+
   exec { 'move existing yum repo configs':
     command => "/usr/bin/tar -czf /etc/yum.repos`date '+%Y%m%d-%H%M'`.tgz -C /etc/ yum.repos.d"
   }
@@ -19,12 +23,6 @@ class fc_image_updater::yum {
     command => "/usr/bin/tar -xzf /tmp/yum.repos.$operatingsystemmajrelease.tgz -C /etc/"
   }
 
-  package { 'tmux':
-    ensure => installed
-  }
-  package { 'git':
-    ensure => installed
-  }
 
   exec { 'yum update':
     command => '/usr/bin/yum update -y',

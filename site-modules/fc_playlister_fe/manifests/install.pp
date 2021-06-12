@@ -5,11 +5,10 @@
 # @example
 #   include fc_playlister_fe::install
 class fc_playlister_fe::install {
-    package { 'python3': }
-    ~> package { 'cassandra-driver':
-      provider => pip3,
-    }
-    package { 'haproxy':
-      ensure => installed
-    }
+  ensure_packages ( [ 'python3', 'haproxy' ],
+    { ensure => present, }
+  )
+  ensure_packages ( [ 'cassandra-driver' ],
+    { ensure => present, provider => 'pip3', }
+  )
 }

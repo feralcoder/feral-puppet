@@ -5,13 +5,7 @@
 # @example
 #   include fc_common::install
 class fc_common::install {
-    package { 'bcc':
-      ensure => installed
-    }
-    package { 'perf':
-      ensure => installed
-    }
-    package { 'systemtap':
-      ensure => installed
-    }
+    ensure_packages ( [ 'bcc', 'perf', 'systemtap' ],
+      { ensure => present, }
+    )
 }

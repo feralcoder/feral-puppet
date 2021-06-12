@@ -5,6 +5,12 @@
 # @example
 #   include fc_playlister_be::cassandra
 class fc_playlister_be::cassandra {
+  ensure_packages ( [ 'python2', 'patch' ],
+    { ensure => present, }
+  )
+  ensure_packages ( [ 'cassandra-driver' ],
+    { ensure => present, provider => 'pip2', }
+  )
 
   class { 'cassandra::datastax_repo':
     before => Class['cassandra']
@@ -12,11 +18,6 @@ class fc_playlister_be::cassandra {
 
   class { 'cassandra::java':
     before => Class['cassandra']
-  }
-
-  package { 'python2': }
-  ~> package { 'cassandra-driver': 
-    provider => pip2,
   }
 
   class { 'cassandra':
@@ -90,9 +91,6 @@ class fc_playlister_be::cassandra {
   }
 
   # Init scripts not ready for CentOS 8 Systemd
-  package { 'patch':
-    ensure => installed,
-  }
   ~> file { '/etc/rc.d/init.d/cassandra_rc.patch':
     source => "puppet:///modules/fc_playlister_be/cassandra_rc.patch",
   }

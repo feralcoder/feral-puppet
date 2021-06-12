@@ -5,9 +5,9 @@
 # @example
 #   include fc_puppetmaster::install
 class fc_puppetmaster::install {
-  package { ['puppetserver', 'pdk' ]:
-    ensure => installed
-  }
+  ensure_packages ( ['puppetserver', 'pdk' ],
+    { ensure => present, }
+  )
 
   exec { 'install puppetlabs-stdlib puppet module':
     command => "/opt/puppetlabs/bin/puppet module install puppetlabs-stdlib"
