@@ -11,4 +11,7 @@ class fc_playlister_fe::install {
   ensure_packages ( [ 'cassandra-driver' ],
     { ensure => present, provider => 'pip3', }
   )
+
+  anchor { 'fc_playlister_fe::install::begin': }
+  ~> anchor { 'fc_playlister_fe::install::end': }
 }
