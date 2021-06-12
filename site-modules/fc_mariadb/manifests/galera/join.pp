@@ -8,7 +8,7 @@ class fc_mariadb::galera::join {
   anchor { 'fc_mariadb::galera::join::begin': }
   ~> service { 'stop mariadb for preinitialization':
     name => 'mariadb',
-    ensure => 'started',
+    ensure => 'running',
   }
   ~> anchor { 'fc_mariadb::galera::join::end': }
 }

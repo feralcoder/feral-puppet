@@ -77,22 +77,22 @@ class fc_mariadb::galera {
   }
 
   # INITIALIZE FIRST NODE
-  if $fc_playlister_oltp_state_fact == 'initialize_first_node'{
-    if $fc_playlister_oltp_state_manifest == 'initialize_first_node' {
+  if $fc_playlister_oltp_state_fact == 'initialize_primary_node'{
+    if $fc_playlister_oltp_state_manifest == 'initialize_primary_node' {
       exec { 'clear fc_playlister_oltp state before change':
         command => "/usr/bin/rm -f /etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_*",
         notify => Anchor[
                        'fc_mariadb::galera::initialize::begin',
                    ],
       }
-      ~> file { '/etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_initialize_first_node_started':
+      ~> file { '/etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_initialize_primary_node_started':
         ensure => file,
       }
       ~> class { 'fc_mariadb::galera::initialize': }
       ~> exec { 'clear fc_playlister_oltp state state after change':
         command => "/usr/bin/rm -f /etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_*",
       }
-      ~> file { '/etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_initialize_first_node_finished':
+      ~> file { '/etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_initialize_primary_node_finished':
         ensure => file,
         require => Anchor[
                        'fc_mariadb::galera::initialize::end',
