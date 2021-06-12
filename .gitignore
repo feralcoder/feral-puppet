@@ -10,8 +10,6 @@ git_resource
 vcsrepo
 manifests/*
 !manifests/site.pp
-dynamic_facter/*
-!dynamic_facter/README
 data/nodes/*
 !data/nodes/README
 
@@ -22,3 +20,4 @@ inifile/
 puppet-abort/
 translate/
 set_env/
+mount_core/

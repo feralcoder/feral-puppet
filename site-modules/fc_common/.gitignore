@@ -29,3 +29,5 @@ decrypt_secret
 facts_decrypt.txt
 files/facts_cliff*
 files/facts_decrypt*
+files/dynamic_facter/*
+!files/dynamic_facter/README
