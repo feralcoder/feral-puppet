@@ -14,7 +14,7 @@ wsrep_cluster_address=gcomm://<%= scope['fc_playlister_oltp::oltp_ips'] %>
 #default_storage_engine=InnoDB
 #innodb_autoinc_lock_mode=2
 
-datadir=/cephfs-data/<%= scope['fc_playlister_oltp::cluster_name'] %>/galera/<$= @clientcert %>
+datadir=/cephfs-data/<%= scope['fc_playlister_oltp::cluster_name'] %>/galera/<%= @clientcert %>
 
 
 #
