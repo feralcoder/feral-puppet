@@ -5,18 +5,22 @@
 # @example
 #   include fc_mariadb::galera::configure
 class fc_mariadb::galera::configure {
-  file { '/etc/my.cnf.d/z_playlister-galera.cnf':
+  anchor { 'fc_mariadb::galera::configure::begin': }
+  ~> file { [ "/local-data", "/local-data/$fc_playlister_oltp::cluster_name", "/local-data/$fc_playlister_oltp::cluster_name/galera", "/local-data/$fc_playlister_oltp::cluster_name/galera/$clientcert" ]:
+    ensure => directory,
+    owner => 'mysql',
+    group => 'mysql',
+  }
+  ~> file { [ "/cephfs-data/$fc_playlister_oltp::cluster_name", "/cephfs-data/$fc_playlister_oltp::cluster_name/galera", "/cephfs-data/$fc_playlister_oltp::cluster_name/galera/$clientcert" ]:
+    ensure => directory,
+    owner => 'mysql',
+    group => 'mysql',
+  }
+  ~> file { '/etc/my.cnf.d/z_playlister-galera.cnf':
     ensure => file,
-    source => 'puppet:///modules/fc_mariadb/z_playlister-galera.cnf',
+    content => template('fc_mariadb/z_playlister-galera.cnf'),
+    #source => 'puppet:///modules/fc_mariadb/z_playlister-galera.cnf',
     mode => '0644',
   }
+  ~> anchor { 'fc_mariadb::galera::configure::end': }
 }
-
-# PLACE: /etc/my.cnf.d/z_playlister.cnf
-# REPLACE: <<CLUSTER_LIST>>,<<CLUSTER_NAME>>
-
-# SET UP DIR: datadir=/galera-data/<<CLUSTER_NAME>>
-
-# ORCHESTRATE: 
-#   INIT: After first setup, run galera_new_cluster on one, then start others.
-#   STOP / START: Ordered

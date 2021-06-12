@@ -7,8 +7,9 @@ service = LocalStorage
 
 object_size = 5M
 
-metadata_path = /var/lib/columnstore/storagemanager/metadata
-journal_path = /var/lib/columnstore/storagemanager/journal
+# DATA FOR MULTI-NODE, FROM DOCS: /var/lib/columnstore/dataN
+metadata_path = /cephfs-data/<%= scope['fc_playlister_olap::cluster_name'] %>/columnstore/<%= @clientcert %>/storagemanager/metadata
+journal_path = /cephfs-data/<%= scope['fc_playlister_olap::cluster_name'] %>/columnstore/<%= @clientcert %>/storagemanager/journal
 max_concurrent_downloads = 21
 max_concurrent_uploads = 21
 common_prefix_depth = 3
@@ -26,11 +27,11 @@ common_prefix_depth = 3
 # ec2_iam_mode=enabled
 
 [LocalStorage]
-path = /var/lib/columnstore/storagemanager/fake-cloud
+path = /cephfs-data/<%= scope['fc_playlister_olap::cluster_name'] %>/columnstore/<%= @clientcert %>/storagemanager/fake-cloud
 fake_latency = n
 max_latency = 50000
 
 [Cache]
 cache_size = 2g
-path = /var/lib/columnstore/storagemanager/cache
+path = /cephfs-data/<%= scope['fc_playlister_olap::cluster_name'] %>/columnstore/<%= @clientcert %>/storagemanager/cache
 
