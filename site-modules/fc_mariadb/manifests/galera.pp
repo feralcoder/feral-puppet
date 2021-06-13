@@ -133,4 +133,62 @@ class fc_mariadb::galera {
       }
     }
   }
+
+  # STOP NODE
+  if $fc_playlister_oltp_state_fact == 'stop'{
+    if $fc_playlister_oltp_state_manifest == 'stop' {
+      exec { 'clear fc_playlister_oltp state before change':
+        command => "/usr/bin/rm -f /etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_*",
+        notify => Anchor[
+                       'fc_mariadb::galera::stop::begin',
+                   ],
+      }
+      ~> file { '/etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_stop_started':
+        ensure => file,
+      }
+      ~> class { 'fc_mariadb::galera::stop': }
+      ~> exec { 'clear fc_playlister_oltp state state after change':
+        command => "/usr/bin/rm -f /etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_*",
+      }
+      ~> file { '/etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_stop_finished':
+        ensure => file,
+        require => Anchor[
+                       'fc_mariadb::galera::stop::end',
+                   ],
+      }
+    } else {
+      file { '/tmp/fc_puppet_state.txt':
+        content => "Current state is inconsistent"
+      }
+    }
+  }
+
+  # START NODE
+  if $fc_playlister_oltp_state_fact == 'start'{
+    if $fc_playlister_oltp_state_manifest == 'start' {
+      exec { 'clear fc_playlister_oltp state before change':
+        command => "/usr/bin/rm -f /etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_*",
+        notify => Anchor[
+                       'fc_mariadb::galera::start::begin',
+                   ],
+      }
+      ~> file { '/etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_start_started':
+        ensure => file,
+      }
+      ~> class { 'fc_mariadb::galera::start': }
+      ~> exec { 'clear fc_playlister_oltp state state after change':
+        command => "/usr/bin/rm -f /etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_*",
+      }
+      ~> file { '/etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_start_finished':
+        ensure => file,
+        require => Anchor[
+                       'fc_mariadb::galera::start::end',
+                   ],
+      }
+    } else {
+      file { '/tmp/fc_puppet_state.txt':
+        content => "Current state is inconsistent"
+      }
+    }
+  }
 }
