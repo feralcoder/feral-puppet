@@ -29,9 +29,9 @@ class fc_playlister_fe::install {
 
   anchor { 'fc_playlister_fe::install::begin': }
   ~> anchor { 'fc_playlister_fe::install::packages1': }
-  INSTALL PYTHON, HAPROXY
+  # INSTALL PYTHON, HAPROXY
   ~> anchor { 'fc_playlister_fe::install::packages2': }
-  INSTALL PIP
+  # INSTALL PIP
   ~> anchor { 'fc_playlister_fe::install::packages3': }
   ~> anchor { 'fc_playlister_fe::install::end': }
 }
