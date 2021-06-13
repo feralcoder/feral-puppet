@@ -6,10 +6,12 @@
 #   include fc_playlister_be::cassandra
 class fc_playlister_be::cassandra {
   ensure_packages ( [ 'python2', 'patch' ],
-    { ensure => present, }
+    { ensure => present,
+    }
   )
   ensure_packages ( [ 'cassandra-driver' ],
-    { ensure => present, provider => 'pip2', }
+    { ensure => present, provider => 'pip2',
+    }
   )
 
   class { 'cassandra::datastax_repo':

@@ -6,7 +6,8 @@
 #   include fc_mariadb::packages
 class fc_mariadb::packages {
   ensure_packages ( 'wget',
-    { ensure => 'present', }
+    { ensure => 'present',
+    }
   )
 
   anchor { 'fc_mariadb::packages::begin': }

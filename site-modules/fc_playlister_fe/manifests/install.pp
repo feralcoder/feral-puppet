@@ -6,10 +6,12 @@
 #   include fc_playlister_fe::install
 class fc_playlister_fe::install {
   ensure_packages ( [ 'python3', 'haproxy' ],
-    { ensure => present, }
+    { ensure => present,
+    }
   )
   ensure_packages ( [ 'cassandra-driver' ],
-    { ensure => present, provider => 'pip3', }
+    { ensure => present, provider => 'pip3',
+    }
   )
 
   anchor { 'fc_playlister_fe::install::begin': }

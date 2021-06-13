@@ -6,7 +6,8 @@
 #   include fc_image_updater::yum
 class fc_image_updater::yum {
   ensure_packages { [ 'tmux', 'git' ],
-    { ensure => present, }
+    { ensure => present,
+    }
   )
 
   exec { 'move existing yum repo configs':

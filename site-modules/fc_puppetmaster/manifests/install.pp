@@ -6,7 +6,8 @@
 #   include fc_puppetmaster::install
 class fc_puppetmaster::install {
   ensure_packages ( ['puppetserver', 'pdk' ],
-    { ensure => present, }
+    { ensure => present,
+    }
   )
 
   exec { 'install puppetlabs-stdlib puppet module':

@@ -6,7 +6,8 @@
 #   include fc_mariadb::galera::install
 class fc_mariadb::galera::install {
   ensure_packages ( [ 'MariaDB-server', 'MariaDB-backup', 'galera-4' ],
-    {ensure => present,}
+    { ensure => present,
+    }
   )
 
   anchor { 'fc_mariadb::galera::install::begin': }

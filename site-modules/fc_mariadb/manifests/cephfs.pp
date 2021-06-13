@@ -6,16 +6,37 @@
 #   include fc_mariadb::cephfs
 class fc_mariadb::cephfs {
   ensure_packages ( 'epel-release',
-    {ensure => 'present', }
+    { ensure => 'present',
+        require => Anchor['fc_mariadb::cephfs::begin'],
+        before => Anchor['fc_mariadb::cephfs::packages1'],
+        before => Anchor['fc_mariadb::cephfs::end'],
+    }
   )
   ensure_packages ( 'centos-release-ceph-nautilus',
-    {ensure => 'present', }
+    { ensure => 'present',
+        require => Anchor['fc_mariadb::cephfs::begin'],
+        require => Anchor['fc_mariadb::cephfs::packages1'],
+        before => Anchor['fc_mariadb::cephfs::packages2'],
+        before => Anchor['fc_mariadb::cephfs::end'],
+    }
   )
   ensure_packages ( 'ceph-common',
-    {ensure => 'present', }
+    { ensure => 'present',
+        require => Anchor['fc_mariadb::cephfs::begin'],
+        require => Anchor['fc_mariadb::cephfs::packages2'],
+        before => Anchor['fc_mariadb::cephfs::packages3'],
+        before => Anchor['fc_mariadb::cephfs::end'],
+    }
   )
 
   anchor { 'fc_mariadb::cephfs::begin': }
+  # INSTALL EPEL-RELEASE
+  ~> anchor { 'fc_mariadb::cephfs::packages1': }
+  # INSTALL CEPH REPOS
+  ~> anchor { 'fc_mariadb::cephfs::packages2': }
+  # INSTALL CEPH COMMON
+  ~> anchor { 'fc_mariadb::cephfs::packages3': }
+
   ~> file { 'set up cephfs config directory':
     path => '/etc/ceph/',
     ensure => directory,

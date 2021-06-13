@@ -6,6 +6,7 @@
 #   include fc_common::install
 class fc_common::install {
     ensure_packages ( [ 'bcc', 'perf', 'systemtap' ],
-      { ensure => present, }
+      { ensure => present,
+      }
     )
 }
