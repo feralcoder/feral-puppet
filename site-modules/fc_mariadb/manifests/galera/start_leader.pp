@@ -3,27 +3,27 @@
 # A description of what this class does
 #
 # @example
-#   include fc_mariadb::galera::initialize
-class fc_mariadb::galera::initialize {
-  anchor { 'fc_mariadb::galera::initialize::begin': }
+#   include fc_mariadb::galera::start_leader
+class fc_mariadb::galera::start_leader {
+  anchor { 'fc_mariadb::galera::start_leader::begin': }
   ~> exec { 'create DB for galera':
     command => "/usr/bin/mysql_install_db --user=mysql --ldata=/cephfs-data/$fc_playlister_oltp::cluster_name/galera/$clientcert"
   }
-  ~> file_line { 'hose wsrep cluster for initialization':
+  ~> file_line { 'hose wsrep cluster for start_leader':
     path => '/etc/my.cnf.d/z_playlister-galera.cnf',
     line => 'wsrep_cluster_address=gcomm://',
     after => 'wsrep_cluster_address=gcomm://[0-9]+'
   }
-  ~> exec { 'initialize Galera':
+  ~> exec { 'Start Galera Primary Component':
     command => "/usr/bin/galera_new_cluster",
   }
-  ~> file_line { 'restore wsrep cluster post initialization':
+  ~> file_line { 'restore wsrep cluster once running':
     path => '/etc/my.cnf.d/z_playlister-galera.cnf',
     ensure => 'absent',
     match_for_absence => 'true',
     match => '^wsrep_cluster_address=gcomm://$',
   }
-  ~> anchor { 'fc_mariadb::galera::initialize::end': }
+  ~> anchor { 'fc_mariadb::galera::start_leader::end': }
 }
 
 

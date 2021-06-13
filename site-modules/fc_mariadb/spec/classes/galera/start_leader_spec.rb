@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'fc_mariadb::galera::initialize' do
+describe 'fc_mariadb::galera::start_leader' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
