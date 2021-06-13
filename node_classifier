@@ -8,17 +8,13 @@ classes:
   - fc_common
 EOF
 
-if ( echo $HOST | grep -E '^playlister[0-9]*-fe' >/dev/null ); then
-  echo "  - fc_playlister_fe"
-#elif ( echo $HOST | grep -E '^playlister[0-9]*-olap-' >/dev/null ); then
-#  echo "  - fc_mariadb::columnstore::install"
-#elif ( echo $HOST | grep -E '^playlister[0-9]*-oltp-' >/dev/null ); then
-#  echo "  - fc_mariadb::galera::install"
-elif ( echo $HOST | grep -E '^puppetmaster' >/dev/null ); then
+if ( echo $HOST | grep -E '^puppetmaster' >/dev/null ); then
   echo "  - fc_puppetmaster"
 elif ( echo $HOST | grep -E '^image-updater' >/dev/null ); then
   echo "  - fc_image_updater"
 elif ( echo $HOST | grep -E '^admin' >/dev/null ); then
+  echo "  - fc_admin"
+elif ( echo $HOST | grep -E '^playlister2-fe-10-254-0-7' >/dev/null ); then
   echo "  - fc_admin"
 fi
 
