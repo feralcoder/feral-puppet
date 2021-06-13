@@ -16,6 +16,7 @@ class fc_playlister_fe {
         command => "/usr/bin/rm -f /etc/puppetlabs/fc_puppet_state/fc_playlister_fe_*",
         notify => Anchor[
                        'fc_common::demandpuppet::begin',
+                       'fc_mariadb::packages::begin',
                        'fc_playlister_fe::install::begin',
                        'fc_playlister_fe::configure::begin',
                        'fc_playlister_fe::service::begin',
@@ -25,6 +26,7 @@ class fc_playlister_fe {
         ensure => file,
       }
       ~> class { 'fc_common::demandpuppet': }
+      ~> class { 'fc_mariadb::packages': }
       ~> class { 'fc_playlister_fe::install': }
       ~> class { 'fc_playlister_fe::configure': }
       ~> class { 'fc_playlister_fe::service': }
@@ -35,6 +37,7 @@ class fc_playlister_fe {
         ensure => file,
         require => Anchor[
                        'fc_common::demandpuppet::end',
+                       'fc_mariadb::packages::end',
                        'fc_playlister_fe::install::end',
                        'fc_playlister_fe::configure::end',
                        'fc_playlister_fe::service::end',

@@ -5,8 +5,15 @@
 # @example
 #   include fc_playlister_fe::install
 class fc_playlister_fe::install {
-  if !defined(Package['python3']) {
-    ensure_packages ( 'python3',
+  if !defined(Package['python3-devel']) {
+    ensure_packages ( [ 'python3', 'python3-devel' ],
+    { ensure => present,
+        require => Anchor['fc_playlister_fe::install::packages1'],
+        before => Anchor['fc_playlister_fe::install::packages2'],
+    }
+  )}
+  if !defined(Package['MariaDB-devel']) {
+    ensure_packages ( [ 'MariaDB-shared', 'MariaDB-devel' ],
     { ensure => present,
         require => Anchor['fc_playlister_fe::install::packages1'],
         before => Anchor['fc_playlister_fe::install::packages2'],
