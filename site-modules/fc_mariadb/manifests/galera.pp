@@ -16,8 +16,8 @@ class fc_mariadb::galera {
         command => "/usr/bin/rm -f /etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_*",
         notify => Anchor[
                        'fc_common::demandpuppet::begin',
-                       'fc_mariadb::cephfs::begin',
                        'fc_mariadb::galera::install::begin',
+                       'fc_mariadb::cephfs::begin',
                        'fc_mariadb::galera::configure::begin'
                    ],
       }
@@ -25,8 +25,8 @@ class fc_mariadb::galera {
         ensure => file,
       }
       ~> class { 'fc_common::demandpuppet': }
-      ~> class { 'fc_mariadb::cephfs': }
       ~> class { 'fc_mariadb::galera::install': }
+      ~> class { 'fc_mariadb::cephfs': }
       ~> class { 'fc_mariadb::galera::configure': }
       ~> exec { 'clear fc_playlister_oltp state state after change':
         command => "/usr/bin/rm -f /etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_*",
@@ -35,8 +35,8 @@ class fc_mariadb::galera {
         ensure => file,
         require => Anchor[
                        'fc_common::demandpuppet::end',
-                       'fc_mariadb::cephfs::end',
                        'fc_mariadb::galera::install::end',
+                       'fc_mariadb::cephfs::end',
                        'fc_mariadb::galera::configure::end'
                    ],
       }

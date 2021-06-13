@@ -16,8 +16,8 @@ class fc_mariadb::columnstore {
         command => "/usr/bin/rm -f /etc/puppetlabs/fc_puppet_state/fc_playlister_olap_*",
         notify => Anchor[
                        'fc_common::demandpuppet::begin',
-                       'fc_mariadb::cephfs::begin',
                        'fc_mariadb::columnstore::install::begin',
+                       'fc_mariadb::cephfs::begin',
                        'fc_mariadb::columnstore::configure::begin'
                    ],
       }
@@ -25,8 +25,8 @@ class fc_mariadb::columnstore {
         ensure => file,
       }
       ~> class { 'fc_common::demandpuppet': }
-      ~> class { 'fc_mariadb::cephfs': }
       ~> class { 'fc_mariadb::columnstore::install': }
+      ~> class { 'fc_mariadb::cephfs': }
       ~> class { 'fc_mariadb::columnstore::configure': }
       ~> exec { 'clear fc_playlister_olap state state after change':
         command => "/usr/bin/rm -f /etc/puppetlabs/fc_puppet_state/fc_playlister_olap_*",
@@ -35,8 +35,8 @@ class fc_mariadb::columnstore {
         ensure => file,
         require => Anchor[
                        'fc_common::demandpuppet::begin',
-                       'fc_mariadb::cephfs::end',
                        'fc_mariadb::columnstore::install::end',
+                       'fc_mariadb::cephfs::end',
                        'fc_mariadb::columnstore::configure::end'
                    ],
       }
