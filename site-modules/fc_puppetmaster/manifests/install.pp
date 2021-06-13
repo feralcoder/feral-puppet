@@ -7,25 +7,31 @@
 class fc_puppetmaster::install {
   ensure_packages ( ['puppetserver', 'pdk' ],
     { ensure => present,
+        require => Anchor['fc_mariadb::cephfs::begin'],
+        before => Anchor['fc_mariadb::cephfs::packages1'],
+        before => Anchor['fc_mariadb::cephfs::end'],
     }
   )
 
-  exec { 'install puppetlabs-stdlib puppet module':
+  anchor { 'fc_puppetmaster::install::begin': }
+
+  ~> exec { 'install puppetlabs-stdlib puppet module':
     command => "/opt/puppetlabs/bin/puppet module install puppetlabs-stdlib"
   }
-  exec { 'install puppetlabs-vcsrepo puppet module':
+  ~> exec { 'install puppetlabs-vcsrepo puppet module':
     command => "/opt/puppetlabs/bin/puppet module install puppetlabs-vcsrepo"
   }
-  exec { 'install puppetlabs-reboot puppet module':
+  ~> exec { 'install puppetlabs-reboot puppet module':
     command => "/opt/puppetlabs/bin/puppet module install puppetlabs-reboot"
   }
-  exec { 'install morpheu-refacter puppet module':
+  ~> exec { 'install morpheu-refacter puppet module':
     command => "/opt/puppetlabs/bin/puppet module install morpheu-refacter"
   }
 
-  file { 'autoaccept all host certs':
+  ~> file { 'autoaccept all host certs':
     ensure => file,
     content => '*',
     path => '/etc/puppetlabs/autosign.conf'
   }
+  ~> anchor { 'fc_puppetmaster::install::end': }
 }

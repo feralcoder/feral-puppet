@@ -7,6 +7,9 @@
 class fc_mariadb::packages {
   ensure_packages ( 'wget',
     { ensure => 'present',
+        require => Anchor['fc_mariadb::cephfs::begin'],
+        before => Anchor['fc_mariadb::cephfs::packages1'],
+        before => Anchor['fc_mariadb::cephfs::end'],
     }
   )
 

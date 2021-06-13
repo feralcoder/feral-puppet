@@ -7,22 +7,30 @@
 class fc_playlister_be::cassandra {
   ensure_packages ( [ 'python2', 'patch' ],
     { ensure => present,
+        require => Anchor['fc_mariadb::cephfs::begin'],
+        before => Anchor['fc_mariadb::cephfs::packages1'],
+        before => Anchor['fc_mariadb::cephfs::end'],
     }
   )
   ensure_packages ( [ 'cassandra-driver' ],
     { ensure => present, provider => 'pip2',
+        require => Anchor['fc_mariadb::cephfs::begin'],
+        before => Anchor['fc_mariadb::cephfs::packages1'],
+        before => Anchor['fc_mariadb::cephfs::end'],
     }
   )
 
-  class { 'cassandra::datastax_repo':
+  anchor { 'fc_playlister_be::cassandra::begin': }
+
+  ~> class { 'cassandra::datastax_repo':
     before => Class['cassandra']
   }
 
-  class { 'cassandra::java':
+  ~> class { 'cassandra::java':
     before => Class['cassandra']
   }
 
-  class { 'cassandra':
+  ~> class { 'cassandra':
     dc             => "$cassandra::dc",
     settings       => {
       'authenticator'               => 'PasswordAuthenticator',
@@ -57,7 +65,7 @@ class fc_playlister_be::cassandra {
     require  => Class['cassandra::datastax_repo', 'cassandra::java'],
   }
 
-  file { '/var/lib/cassandra/.cassandra':
+  ~> file { '/var/lib/cassandra/.cassandra':
     ensure => directory,
     owner => 'cassandra',
     group => 'cassandra',
@@ -65,28 +73,28 @@ class fc_playlister_be::cassandra {
 
   # cqlsh errors fixed with:
   # https://issues.apache.org/jira/browse/CASSANDRA-11573
-  file { 'remove copyutil.so':
+  ~> file { 'remove copyutil.so':
     path => '/usr/lib/python2.7/site-packages/cqlshlib/copyutil.so',
     ensure => absent
   }
-  file { 'remove copyutil.pyc':
+  ~> file { 'remove copyutil.pyc':
     path => '/usr/lib/python2.7/site-packages/cqlshlib/copyutil.pyc',
     ensure => absent
   }
   # https://issues.apache.org/jira/browse/CASSANDRA-11850
-  file_line { 'force cqlsh to not use bundled driver':
+  ~> file_line { 'force cqlsh to not use bundled driver':
     path => '/usr/bin/cqlsh',
     match => '.*CQLSH_NO_BUNDLED.*',
     line => "export CQLSH_NO_BUNDLED=TRUE",
     after => "#!/bin/sh",
   }
 
-  file { 'cassandra ownership on /var/lib/cassandra':
+  ~> file { 'cassandra ownership on /var/lib/cassandra':
     path => '/var/lib/cassandra',
     owner => 'cassandra',
     group => 'cassandra',
   }
-  file { '/var/run/cassandra':
+  ~> file { '/var/run/cassandra':
     ensure => directory,
     owner => 'cassandra',
     group => 'cassandra',
@@ -105,5 +113,5 @@ class fc_playlister_be::cassandra {
   }
 
 
-  anchor { 'fc_playlister_be::cassandra::end': }
+  ~> anchor { 'fc_playlister_be::cassandra::end': }
 }

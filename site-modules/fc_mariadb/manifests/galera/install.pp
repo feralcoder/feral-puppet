@@ -7,6 +7,9 @@
 class fc_mariadb::galera::install {
   ensure_packages ( [ 'MariaDB-server', 'MariaDB-backup', 'galera-4' ],
     { ensure => present,
+        require => Anchor['fc_mariadb::cephfs::begin'],
+        before => Anchor['fc_mariadb::cephfs::packages1'],
+        before => Anchor['fc_mariadb::cephfs::end'],
     }
   )
 
