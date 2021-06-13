@@ -5,24 +5,27 @@
 # @example
 #   include fc_mariadb::cephfs
 class fc_mariadb::cephfs {
-  ensure_packages ( 'epel-release',
+  if !defined(Package['epel-release']) {
+    ensure_packages ( 'epel-release',
     { ensure => 'present',
         require => Anchor['fc_mariadb::cephfs::begin'],
         before => Anchor['fc_mariadb::cephfs::packages1'],
     }
-  )
-  ensure_packages ( 'centos-release-ceph-nautilus',
+  )}
+  if !defined(Package['centos-release-ceph-nautilus']) {
+    ensure_packages ( 'centos-release-ceph-nautilus',
     { ensure => 'present',
         require => Anchor['fc_mariadb::cephfs::packages1'],
         before => Anchor['fc_mariadb::cephfs::packages2'],
     }
-  )
-  ensure_packages ( 'ceph-common',
+  )}
+  if !defined(Package['ceph-common']) {
+    ensure_packages ( 'ceph-common',
     { ensure => 'present',
         require => Anchor['fc_mariadb::cephfs::packages2'],
         before => Anchor['fc_mariadb::cephfs::packages3'],
     }
-  )
+  )}
 
   anchor { 'fc_mariadb::cephfs::begin': }
   # INSTALL EPEL-RELEASE

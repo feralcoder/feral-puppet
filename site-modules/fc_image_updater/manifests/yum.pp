@@ -5,12 +5,20 @@
 # @example
 #   include fc_image_updater::yum
 class fc_image_updater::yum {
-  ensure_packages { [ 'tmux', 'git' ],
+  if !defined(Package['tmux']) {
+    ensure_packages { 'tmux',
     { ensure => present,
         require => Anchor['fc_image_updater::yum::late'],
         before => Anchor['fc_image_updater::yum::end'],
     }
-  )
+  )}
+  if !defined(Package['git']) {
+    ensure_packages { 'git',
+    { ensure => present,
+        require => Anchor['fc_image_updater::yum::late'],
+        before => Anchor['fc_image_updater::yum::end'],
+    }
+  )}
 
   anchor { 'fc_image_updater::yum::begin': }
 

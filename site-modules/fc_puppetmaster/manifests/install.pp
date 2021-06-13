@@ -5,12 +5,13 @@
 # @example
 #   include fc_puppetmaster::install
 class fc_puppetmaster::install {
-  ensure_packages ( ['puppetserver', 'pdk' ],
+  if !defined(Package['pdk']) {
+    ensure_packages ( ['puppetserver', 'pdk' ],
     { ensure => present,
         require => Anchor['fc_puppetmaster::install::packages1'],
         before => Anchor['fc_puppetmaster::install::packages2'],
     }
-  )
+  )}
 
   anchor { 'fc_puppetmaster::install::begin': }
 

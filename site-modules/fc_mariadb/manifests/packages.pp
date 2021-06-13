@@ -5,12 +5,13 @@
 # @example
 #   include fc_mariadb::packages
 class fc_mariadb::packages {
-  ensure_packages ( 'wget',
+  if !defined(Package['wget']) {
+    ensure_packages ( 'wget',
     { ensure => 'present',
         require => Anchor['fc_mariadb::packages::begin'],
         before => Anchor['fc_mariadb::packages::early'],
     }
-  )
+  )}
 
   anchor { 'fc_mariadb::packages::begin': }
   # INSTALL WGET

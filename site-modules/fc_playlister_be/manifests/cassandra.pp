@@ -5,18 +5,27 @@
 # @example
 #   include fc_playlister_be::cassandra
 class fc_playlister_be::cassandra {
-  ensure_packages ( [ 'python2', 'patch', 'pip2' ],
+  if !defined(Package['pip2']) {
+    ensure_packages ( [ 'python2', 'pip2' ],
     { ensure => present,
         require => Anchor['fc_playlister_be::cassandra::packages1'],
         before => Anchor['fc_playlister_be::cassandra::packages2'],
     }
-  )
-  ensure_packages ( [ 'cassandra-driver' ],
+  )}
+  if !defined(Package['patch']) {
+    ensure_packages ( 'patch',
+    { ensure => present,
+        require => Anchor['fc_playlister_be::cassandra::packages1'],
+        before => Anchor['fc_playlister_be::cassandra::packages2'],
+    }
+  )}
+  if !defined(Package['cassandra-driver']) {
+    ensure_packages ( [ 'cassandra-driver' ],
     { ensure => present, provider => 'pip2',
         require => Anchor['fc_playlister_be::cassandra::packages2'],
         before => Anchor['fc_playlister_be::cassandra::packages3'],
     }
-  )
+  )}
 
   anchor { 'fc_playlister_be::cassandra::begin': }
 
