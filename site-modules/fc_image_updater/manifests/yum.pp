@@ -7,9 +7,8 @@
 class fc_image_updater::yum {
   ensure_packages { [ 'tmux', 'git' ],
     { ensure => present,
-        require => Anchor['fc_mariadb::cephfs::begin'],
-        before => Anchor['fc_mariadb::cephfs::packages1'],
-        before => Anchor['fc_mariadb::cephfs::end'],
+        require => Anchor['fc_image_updater::yum::late'],
+        before => Anchor['fc_image_updater::yum::end'],
     }
   )
 
@@ -37,5 +36,7 @@ class fc_image_updater::yum {
 
   ~> tidy { '/tmp/yum.repos.$operatingsystemmajrelease.tgz': }
 
+  ~> anchor { 'fc_image_updater::yum::late': }
+  # INSTALL TMUX, GIT
   ~> anchor { 'fc_image_updater::yum::end': }
 }

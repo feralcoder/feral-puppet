@@ -7,9 +7,8 @@
 class fc_common::install {
     ensure_packages ( [ 'bcc', 'perf', 'systemtap' ],
       { ensure => present,
-        require => Anchor['fc_mariadb::cephfs::begin'],
-        before => Anchor['fc_mariadb::cephfs::packages1'],
-        before => Anchor['fc_mariadb::cephfs::end'],
+        require => Anchor['fc_common::install::begin'],
+        before => Anchor['fc_common::install::end'],
       }
     )
 

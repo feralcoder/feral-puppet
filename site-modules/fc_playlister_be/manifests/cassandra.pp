@@ -5,22 +5,26 @@
 # @example
 #   include fc_playlister_be::cassandra
 class fc_playlister_be::cassandra {
-  ensure_packages ( [ 'python2', 'patch' ],
+  ensure_packages ( [ 'python2', 'patch', 'pip2' ],
     { ensure => present,
-        require => Anchor['fc_mariadb::cephfs::begin'],
-        before => Anchor['fc_mariadb::cephfs::packages1'],
-        before => Anchor['fc_mariadb::cephfs::end'],
+        require => Anchor['fc_playlister_be::cassandra::packages1'],
+        before => Anchor['fc_playlister_be::cassandra::packages2'],
     }
   )
   ensure_packages ( [ 'cassandra-driver' ],
     { ensure => present, provider => 'pip2',
-        require => Anchor['fc_mariadb::cephfs::begin'],
-        before => Anchor['fc_mariadb::cephfs::packages1'],
-        before => Anchor['fc_mariadb::cephfs::end'],
+        require => Anchor['fc_playlister_be::cassandra::packages2'],
+        before => Anchor['fc_playlister_be::cassandra::packages3'],
     }
   )
 
   anchor { 'fc_playlister_be::cassandra::begin': }
+
+  ~> anchor { 'fc_playlister_be::cassandra::packages1': }
+  # INSTALL PYTHON, PATCH, PIP2
+  ~> anchor { 'fc_playlister_be::cassandra::packages2': }
+  # INSTALL CASSANDRA-DRIVER from pip
+  ~> anchor { 'fc_playlister_be::cassandra::packages3': }
 
   ~> class { 'cassandra::datastax_repo':
     before => Class['cassandra']

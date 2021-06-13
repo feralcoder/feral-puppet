@@ -7,13 +7,16 @@
 class fc_puppetmaster::install {
   ensure_packages ( ['puppetserver', 'pdk' ],
     { ensure => present,
-        require => Anchor['fc_mariadb::cephfs::begin'],
-        before => Anchor['fc_mariadb::cephfs::packages1'],
-        before => Anchor['fc_mariadb::cephfs::end'],
+        require => Anchor['fc_puppetmaster::install::packages1'],
+        before => Anchor['fc_puppetmaster::install::packages2'],
     }
   )
 
   anchor { 'fc_puppetmaster::install::begin': }
+
+  ~> anchor { 'fc_puppetmaster::install::packages1': }
+  # INSTALL PUPPET
+  ~> anchor { 'fc_puppetmaster::install::packages2': }
 
   ~> exec { 'install puppetlabs-stdlib puppet module':
     command => "/opt/puppetlabs/bin/puppet module install puppetlabs-stdlib"

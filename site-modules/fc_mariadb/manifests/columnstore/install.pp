@@ -7,34 +7,26 @@
 class fc_mariadb::columnstore::install {
   ensure_packages ( 'epel-release',
     { ensure => 'present', 
-        require => Anchor['fc_mariadb::columnstore::install::begin'],
         require => Anchor['fc_mariadb::columnstore::install::packages1'],
         before => Anchor['fc_mariadb::columnstore::install::packages2'],
-        before => Anchor['fc_mariadb::columnstore::install::end'],
     }
   )
   ensure_packages ( [ 'glibc-locale-source', 'glibc-langpack-en' ],
     { ensure => 'present', 
-        require => Anchor['fc_mariadb::columnstore::install::begin'],
         require => Anchor['fc_mariadb::columnstore::install::packages2'],
         before => Anchor['fc_mariadb::columnstore::install::packages3'],
-        before => Anchor['fc_mariadb::columnstore::install::end'],
     }
   )
   ensure_packages ( 'jemalloc',
     { ensure => 'present', 
-        require => Anchor['fc_mariadb::columnstore::install::begin'],
         require => Anchor['fc_mariadb::columnstore::install::packages3'],
         before => Anchor['fc_mariadb::columnstore::install::packages4'],
-        before => Anchor['fc_mariadb::columnstore::install::end'],
     }
   )
   ensure_packages ( [ 'MariaDB-server', 'MariaDB-backup', 'MariaDB-shared', 'MariaDB-client', 'MariaDB-columnstore-engine' ],
     { ensure => 'present', 
-        require => Anchor['fc_mariadb::columnstore::install::begin'],
         require => Anchor['fc_mariadb::columnstore::install::packages5'],
         before => Anchor['fc_mariadb::columnstore::install::packages6'],
-        before => Anchor['fc_mariadb::columnstore::install::end'],
     }
   )
 

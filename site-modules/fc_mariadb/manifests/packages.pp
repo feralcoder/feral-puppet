@@ -7,13 +7,15 @@
 class fc_mariadb::packages {
   ensure_packages ( 'wget',
     { ensure => 'present',
-        require => Anchor['fc_mariadb::cephfs::begin'],
-        before => Anchor['fc_mariadb::cephfs::packages1'],
-        before => Anchor['fc_mariadb::cephfs::end'],
+        require => Anchor['fc_mariadb::packages::begin'],
+        before => Anchor['fc_mariadb::packages::early'],
     }
   )
 
   anchor { 'fc_mariadb::packages::begin': }
+  # INSTALL WGET
+  ~> anchor { 'fc_mariadb::packages::early': }
+
   ~> exec { 'fetch mariadb yum repo installer':
      command => '/usr/bin/wget https://downloads.mariadb.com/MariaDB/mariadb_repo_setup -O /tmp/mariadb_repo_setup',
      creates => '/etc/yum.repos.d/mariadb.repo'
