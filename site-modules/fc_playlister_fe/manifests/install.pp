@@ -40,5 +40,8 @@ class fc_playlister_fe::install {
   ~> anchor { 'fc_playlister_fe::install::packages2': }
   # INSTALL PIP
   ~> anchor { 'fc_playlister_fe::install::packages3': }
+  ~> class { selinux:
+    mode => 'permissive',
+  }
   ~> anchor { 'fc_playlister_fe::install::end': }
 }
