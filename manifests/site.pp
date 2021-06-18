@@ -76,18 +76,3 @@ node 'puppetmaster.feralcoder.org' {
     }
   }
 }
-
-node /playlister[0-9]*-olap-.*/ {
-  class { 'fc_mariadb::columnstore::facts':
-    stage => 'fc_playlister_be-init'
-  }
-  class { 'fc_mariadb::columnstore::system':
-    stage => 'fc_playlister_be-init',
-  }
-  class { 'fc_common::facts':
-    stage => 'puppet-init'
-  }
-  include class { 'fc_mariadb::columnstore': }
-}
-
-

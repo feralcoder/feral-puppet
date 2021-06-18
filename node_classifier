@@ -14,7 +14,11 @@ elif ( echo $HOST | grep -E '^image-updater' >/dev/null ); then
   echo "  - fc_image_updater"
 elif ( echo $HOST | grep -E '^admin' >/dev/null ); then
   echo "  - fc_admin"
-elif ( echo $HOST | grep -E '^playlister4-fe-10-254-0-101' >/dev/null ); then
+elif ( echo $HOST | grep -E '^playlister5-fe-' >/dev/null ); then
   echo "  - fc_admin"
+#  echo "  - fc_playlister_fe::deploy"
+elif ( echo $HOST | grep -E '^playlister[0-9]*-fe-' >/dev/null ); then
+  echo "  - fc_admin"
+#  echo "  - fc_playlister_fe::deploy"
 fi
 
