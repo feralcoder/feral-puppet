@@ -105,6 +105,35 @@ class fc_mariadb::galera {
     }
   }
 
+  # INITIALIZE
+  if $fc_playlister_oltp_state_fact == 'initialize'{
+    if $fc_playlister_oltp_state_manifest == 'initialize' {
+      exec { 'clear fc_playlister_oltp state before change':
+        command => "/usr/bin/rm -f /etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_*",
+        notify => Anchor[
+                       'fc_mariadb::galera::initialize::begin',
+                   ],
+      }
+      ~> file { '/etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_initialize_started':
+        ensure => file,
+      }
+      ~> class { 'fc_mariadb::galera::initialize': }
+      ~> exec { 'clear fc_playlister_oltp state state after change':
+        command => "/usr/bin/rm -f /etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_*",
+      }
+      ~> file { '/etc/puppetlabs/fc_puppet_state/fc_playlister_oltp_initialize_finished':
+        ensure => file,
+        require => Anchor[
+                       'fc_mariadb::galera::initialize::end',
+                   ],
+      }
+    } else {
+      file { '/tmp/fc_puppet_state.txt':
+        content => "Current state is inconsistent"
+      }
+    }
+  }
+
   # JOIN SECONDARY NODE TO CLUSTER
   if $fc_playlister_oltp_state_fact == 'join'{
     if $fc_playlister_oltp_state_manifest == 'join' {

@@ -5,7 +5,7 @@
 # @example
 #   include fc_mariadb::columnstore::system
 class fc_mariadb::columnstore::system {
-  file { '/etc/sysctl.d/90-mariadb-enterprise-columnstore.conf':
+  file { '/etc/sysctl.d/90-mariadb-columnstore.conf':
     ensure => file,
     source => 'puppet:///modules/fc_mariadb/90-mariadb-columnstore.conf',
     mode => '0644',
