@@ -21,3 +21,4 @@ puppet-abort/
 translate/
 set_env/
 mount_core/
+selinux/
